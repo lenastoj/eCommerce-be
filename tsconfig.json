@@ -13,7 +13,15 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {},
+    "paths": {
+      "@app/*": ["./src/app/*"],
+      "@controlers/*": ["./src/controlers/*"],
+      "@models/*": ["./src/models/*"],
+      "@routes/*": ["./src/routes/*"],
+      "@services/*": ["./src/services/*"],
+      "@utils/*": ["./src/utils/*"],
+      "@validators/*": ["./src/validators/*"],
+    },
     "esModuleInterop": true
   },
   "files": [],
@@ -26,5 +34,6 @@
       "path": "./tsconfig.spec.json"
     }
   ],
-  "exclude": ["node_modules", "tmp"]
+  "exclude": ["node_modules", "tmp"],
+
 }
