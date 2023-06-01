@@ -21,6 +21,8 @@
       "@services/*": ["./src/services/*"],
       "@utils/*": ["./src/utils/*"],
       "@validators/*": ["./src/validators/*"],
+      "@migrations/*": ["./src/migrations/*"],
+      "@seeders/*": ["./src/seeders/*"]
     },
     "esModuleInterop": true
   },
