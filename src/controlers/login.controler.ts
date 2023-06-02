@@ -9,7 +9,7 @@ const login = async (req: Request, res: Response) => {
   try {
     const user = await User.findOne({ where: { email } });
 
-    if(!user) {
+    if (!user) {
       return res.status(400).json({
         success: false,
         errors: { message: 'Invalid Credentials!' },
@@ -30,7 +30,7 @@ const login = async (req: Request, res: Response) => {
 
     req.session.user = user;
 
-    return res.status(200).json({data: {user: sanitizeUser(user)}});
+    return res.status(200).json({ data: { user: sanitizeUser(user) } });
   } catch (error) {
     return res.json(error);
   }
