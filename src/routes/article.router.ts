@@ -8,7 +8,7 @@ const articleRouter = Router();
 
 articleRouter.get('/shoes', getArticles);
 articleRouter.get('/shoes/:name', getArticle);
-articleRouter.post('/create-shoe', isAuth, articleVlidator, validatorSchema, addArticle);
+articleRouter.post('/shoe', isAuth, articleVlidator, validatorSchema, addArticle);
 
 
 
