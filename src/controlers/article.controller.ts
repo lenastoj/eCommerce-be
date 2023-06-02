@@ -12,6 +12,7 @@ export const getArticles = async (req: Request, res: Response) => {
     const articles = await paginate(
       Article,
       {
+        attributes: ['id', 'name', 'imageUrl', 'price', 'inStock', 'gender', 'createdAt', 'updatedAt'],
         include: [
           {
             model: Color,
