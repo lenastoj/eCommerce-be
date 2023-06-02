@@ -1,6 +1,5 @@
 import { Table, Model, Column, DataType } from 'sequelize-typescript';
 
-
 @Table({
   timestamps: true,
   tableName: 'users',
@@ -10,27 +9,24 @@ export default class User extends Model {
     type: DataType.STRING,
     allowNull: false,
   })
-  declare public firstName: string;
+  public declare firstName: string;
 
   @Column({
     type: DataType.STRING,
     allowNull: false,
   })
-  declare public lastName: string;
+  public declare lastName: string;
 
   @Column({
     type: DataType.STRING,
     allowNull: false,
-    unique: true
+    unique: true,
   })
-  declare public email: string;
+  public declare email: string;
 
   @Column({
     type: DataType.STRING,
     allowNull: false,
   })
-  declare public password: string;
+  public declare password: string;
 }
-
-
-
