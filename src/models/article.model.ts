@@ -21,34 +21,34 @@ import User from './user.model';
 })
 export default class Article extends Model {
   @Column(DataType.STRING)
-  name: string;
+  public declare name: string;
 
   @Column(DataType.TEXT)
-  description: string;
+  public declare description: string;
 
   @Column(DataType.STRING)
-  imageUrl: string;
+  public declare imageUrl: string;
 
   @Column(DataType.DOUBLE)
-  price: number;
+  public declare price: number;
 
   @Column(DataType.BOOLEAN)
-  inStock: boolean;
+  public declare inStock: boolean;
 
   @Column(DataType.ENUM('man', 'woman'))
-  gender: 'man' | 'woman';
+  public declare gender: 'man' | 'woman';
 
   @BelongsToMany(() => Color, () => ArticleColor)
-  colors: Color[];
+  public declare colors: Color[];
 
   @BelongsToMany(() => Size, () => ArticleSize)
-  sizes: Size[];
+  public declare sizes: Size[];
 
   @AllowNull(false)
   @NotEmpty
   @ForeignKey(() => User)
   @Column(DataType.INTEGER)
-  userId: number;
+  public declare userId: number;
 
   @BelongsTo(() => User)
   user: ReturnType<() => User>;
