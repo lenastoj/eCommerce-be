@@ -8,4 +8,6 @@ const port = process.env.PORT ? Number(process.env.PORT) : 4000;
 
 app.listen(port, host, () => {
   console.log(`[ ready ] http://${host}:${port}`);
+  console.log('dirname', __dirname)
+
 });

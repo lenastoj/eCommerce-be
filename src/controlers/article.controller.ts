@@ -3,6 +3,7 @@ import Color from '@models/color.model';
 import Size from '@models/size.model';
 import { paginate } from '@utils/paginate';
 import { Request, Response } from 'express';
+import { UploadedFile } from 'express-fileupload';
 
 export const getArticles = async (req: Request, res: Response) => {
   const { page = 1, pageSize = 10 }: { page?: number; pageSize?: number } =
@@ -12,7 +13,16 @@ export const getArticles = async (req: Request, res: Response) => {
     const articles = await paginate(
       Article,
       {
-        attributes: ['id', 'name', 'imageUrl', 'price', 'inStock', 'gender', 'createdAt', 'updatedAt'],
+        attributes: [
+          'id',
+          'name',
+          'imageUrl',
+          'price',
+          'inStock',
+          'gender',
+          'createdAt',
+          'updatedAt',
+        ],
         include: [
           {
             model: Color,
@@ -77,8 +87,14 @@ export const getArticle = async (req: Request, res: Response) => {
 };
 
 export const addArticle = async (req: Request, res: Response) => {
-  const { name, description, imageUrl, colors, sizes, price, inStock, gender } =
-    req.body;
+  console.log(req.files);
+  const { name, description, colors, sizes, price, inStock, gender } = req.body;
+
+  const imageFile = req.files.imageUrl as UploadedFile;
+
+  const imageUrl = `${Date.now()}--${name.replaceAll('"', '')}`;
+
+  imageFile.mv("uploads/" + `${Date.now()}--${name}`);
 
   try {
     const article = await Article.create({
@@ -90,11 +106,10 @@ export const addArticle = async (req: Request, res: Response) => {
       gender,
     });
 
-    // Add the associated colors
-    await article.$add('colors', colors);
-
-    // Add the associated sizes
-    await article.$add('sizes', sizes);
+    await Promise.all([
+      ...colors.map((id) => article.$add('colors', id)),
+      ...sizes.map((id) => article.$add('sizes', id)),
+    ]);
 
     return res.status(200).json(article);
   } catch (error) {

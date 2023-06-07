@@ -29,4 +29,11 @@ export default class User extends Model {
     allowNull: false,
   })
   public declare password: string;
+
+  @Column({
+    type: DataType.BOOLEAN,
+    allowNull: false,
+    defaultValue: false
+  })
+  public declare isAdmin: boolean;
 }
