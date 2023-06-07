@@ -16,6 +16,7 @@ module.exports = {
         price: faker.faker.finance.amount(19.99, 100),
         inStock: faker.faker.datatype.boolean(),
         gender: faker.faker.helpers.arrayElement(['man', 'woman']),
+        userId: 1,
         createdAt: new Date(),
         updatedAt: new Date(),
       });

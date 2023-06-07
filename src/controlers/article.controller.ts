@@ -1,6 +1,7 @@
 import Article from '@models/article.model';
 import Color from '@models/color.model';
 import Size from '@models/size.model';
+import User from '@models/user.model';
 import { paginate } from '@utils/paginate';
 import { Request, Response } from 'express';
 import { UploadedFile } from 'express-fileupload';
@@ -36,6 +37,12 @@ export const getArticles = async (req: Request, res: Response) => {
               attributes: [],
             },
           },
+          {
+            model: User,
+            through: {
+              attributes: []
+            }
+          }
         ],
       },
       page
@@ -90,6 +97,7 @@ export const addArticle = async (req: Request, res: Response) => {
   console.log(req.files);
   const { name, description, colors, sizes, price, inStock, gender } = req.body;
 
+  const userId = req.session.user.id;
   const imageFile = req.files.imageUrl as UploadedFile;
 
   const imageUrl = `${Date.now()}--${name.replaceAll('"', '')}`;
@@ -104,6 +112,7 @@ export const addArticle = async (req: Request, res: Response) => {
       price,
       inStock,
       gender,
+      userId,
     });
 
     await Promise.all([

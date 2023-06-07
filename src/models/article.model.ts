@@ -4,11 +4,15 @@ import {
   Column,
   DataType,
   BelongsToMany,
+  BelongsTo,
+  ForeignKey,
+  AllowNull,
 } from 'sequelize-typescript';
 import Color from './color.model';
 import Size from './size.model';
 import { ArticleColor } from './articleColor.model';
 import { ArticleSize } from './articleSize.model';
+import User from './user.model';
 
 @Table({
   timestamps: true,
@@ -56,4 +60,14 @@ export default class Article extends Model {
 
   @BelongsToMany(() => Size, () => ArticleSize)
   public declare sizes: Size[];
+
+
+  @ForeignKey(() => User)
+  @Column({
+    type: DataType.NUMBER,
+  })
+  public declare userId: number;
+
+  @BelongsTo(() => User)
+  public declare user: ReturnType<() => User> ;
 }
