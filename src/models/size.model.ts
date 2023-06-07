@@ -3,7 +3,6 @@ import {
   Model,
   Column,
   DataType,
-  ForeignKey,
   BelongsToMany,
 } from 'sequelize-typescript';
 import Article from './article.model';

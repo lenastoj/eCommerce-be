@@ -3,7 +3,6 @@ import {
   Model,
   Column,
   DataType,
-  HasOne,
   HasMany,
 } from 'sequelize-typescript';
 import Article from './article.model';
@@ -17,33 +16,33 @@ export default class User extends Model {
     type: DataType.STRING,
     allowNull: false,
   })
-  firstName: string;
+  public declare firstName: string;
 
   @Column({
     type: DataType.STRING,
     allowNull: false,
   })
-  lastName: string;
+  public declare lastName: string;
 
   @Column({
     type: DataType.STRING,
     allowNull: false,
     unique: true,
   })
-  email: string;
+  public declare email: string;
 
   @Column({
     type: DataType.STRING,
     allowNull: false,
   })
-  password: string;
+  public declare password: string;
 
   @Column({
     type: DataType.BOOLEAN,
     allowNull: false,
     defaultValue: false,
   })
-  isAdmin: boolean;
+  public declare isAdmin: boolean;
 
   @HasMany(() => Article, { onDelete: 'cascade', hooks: false })
   articles?: Article[];
