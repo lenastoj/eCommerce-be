@@ -3,16 +3,27 @@ import Color from '@models/color.model';
 import Size from '@models/size.model';
 import { paginate } from '@utils/paginate';
 import { Request, Response } from 'express';
+import { UploadedFile } from 'express-fileupload';
+import path from 'path';
 
 export const getArticles = async (req: Request, res: Response) => {
-  const { page = 1, pageSize = 10 }: { page?: number; pageSize?: number } =
+  const { page = 1 }: { page?: number; } =
     req.query;
 
   try {
     const articles = await paginate(
       Article,
       {
-        attributes: ['id', 'name', 'imageUrl', 'price', 'inStock', 'gender', 'createdAt', 'updatedAt'],
+        attributes: [
+          'id',
+          'name',
+          'imageUrl',
+          'price',
+          'inStock',
+          'gender',
+          'createdAt',
+          'updatedAt',
+        ],
         include: [
           {
             model: Color,
@@ -77,24 +88,32 @@ export const getArticle = async (req: Request, res: Response) => {
 };
 
 export const addArticle = async (req: Request, res: Response) => {
-  const { name, description, imageUrl, colors, sizes, price, inStock, gender } =
-    req.body;
-
   try {
+    const { name, description, colors, sizes, price, inStock, gender } =
+      req.body;
+
+    const userId = req.session.user.id;
+    const imageFile = req.files.imageUrl as UploadedFile;
+
+    const imageName = `${Date.now()}--${imageFile.name}`;
+
+    await imageFile.mv(path.join(__dirname, '../public/') + imageName);
+    await imageFile.mv('./src/public/' + imageName);
+
     const article = await Article.create({
       name,
       description,
-      imageUrl,
+      imageUrl: imageName,
       price,
       inStock,
       gender,
+      userId,
     });
 
-    // Add the associated colors
-    await article.$add('colors', colors);
-
-    // Add the associated sizes
-    await article.$add('sizes', sizes);
+    await Promise.all([
+      ...colors.map((id) => article.$add('colors', id)),
+      ...sizes.map((id) => article.$add('sizes', id)),
+    ]);
 
     return res.status(200).json(article);
   } catch (error) {

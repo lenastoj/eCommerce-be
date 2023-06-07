@@ -2,6 +2,8 @@ import router from '@routes/main.route';
 import express from 'express';
 import cors from 'cors';
 import session from 'express-session';
+import fileupload from 'express-fileupload';
+import path from 'path';
 
 const createApp = () => {
   const app = express();
@@ -15,6 +17,10 @@ const createApp = () => {
   );
 
   app.use(express.json());
+  app.use(fileupload());
+  app.use(express.urlencoded({ extended: true }));
+
+  app.use('/static', express.static(path.join(__dirname, '../public')));
 
   app.use(
     session({

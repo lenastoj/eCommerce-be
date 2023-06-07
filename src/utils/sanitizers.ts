@@ -6,6 +6,7 @@ export const sanitizeUser = (user: User) => {
     firstName: user.firstName,
     lastName: user.lastName,
     email: user.email,
+    isAdmin: user.isAdmin,
   };
 };
 

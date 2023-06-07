@@ -1,4 +1,11 @@
-import { Table, Model, Column, DataType } from 'sequelize-typescript';
+import {
+  Table,
+  Model,
+  Column,
+  DataType,
+  HasMany,
+} from 'sequelize-typescript';
+import Article from './article.model';
 
 @Table({
   timestamps: true,
@@ -29,4 +36,14 @@ export default class User extends Model {
     allowNull: false,
   })
   public declare password: string;
+
+  @Column({
+    type: DataType.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+  })
+  public declare isAdmin: boolean;
+
+  @HasMany(() => Article, { onDelete: 'cascade', hooks: false })
+  articles?: Article[];
 }
