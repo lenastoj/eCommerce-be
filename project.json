@@ -10,12 +10,12 @@
       "defaultConfiguration": "production",
       "options": {
         "platform": "node",
-        "outputPath": "dist/ecommerce-be",
+        "outputPath": "dist",
         "format": ["cjs"],
         "bundle": false,
         "main": "src/main.ts",
         "tsConfig": "tsconfig.app.json",
-        "assets": ["src/assets"],
+        "assets": ["src/public/*"],
         "generatePackageJson": true,
         "esbuildOptions": {
           "sourcemap": true,

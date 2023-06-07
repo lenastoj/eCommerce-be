@@ -1,4 +1,11 @@
-import { Table, Model, Column, DataType, HasMany } from 'sequelize-typescript';
+import {
+  Table,
+  Model,
+  Column,
+  DataType,
+  HasOne,
+  HasMany,
+} from 'sequelize-typescript';
 import Article from './article.model';
 
 @Table({
@@ -10,34 +17,34 @@ export default class User extends Model {
     type: DataType.STRING,
     allowNull: false,
   })
-  public declare firstName: string;
+  firstName: string;
 
   @Column({
     type: DataType.STRING,
     allowNull: false,
   })
-  public declare lastName: string;
+  lastName: string;
 
   @Column({
     type: DataType.STRING,
     allowNull: false,
     unique: true,
   })
-  public declare email: string;
+  email: string;
 
   @Column({
     type: DataType.STRING,
     allowNull: false,
   })
-  public declare password: string;
+  password: string;
 
   @Column({
     type: DataType.BOOLEAN,
     allowNull: false,
-    defaultValue: false
+    defaultValue: false,
   })
-  public declare isAdmin: boolean;
+  isAdmin: boolean;
 
-  @HasMany(() => Article)
-  public declare articles?: Article[];
+  @HasMany(() => Article, { onDelete: 'cascade', hooks: false })
+  articles?: Article[];
 }
