@@ -4,51 +4,38 @@ import {
   Column,
   DataType,
   BelongsToMany,
+  ForeignKey,
+  BelongsTo,
+  AllowNull,
+  NotEmpty,
 } from 'sequelize-typescript';
 import Color from './color.model';
 import Size from './size.model';
 import { ArticleColor } from './articleColor.model';
 import { ArticleSize } from './articleSize.model';
+import User from './user.model';
 
 @Table({
   timestamps: true,
   tableName: 'articles',
 })
 export default class Article extends Model {
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
+  @Column(DataType.STRING)
   public declare name: string;
 
-  @Column({
-    type: DataType.TEXT,
-    allowNull: false,
-  })
+  @Column(DataType.TEXT)
   public declare description: string;
 
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
+  @Column(DataType.STRING)
   public declare imageUrl: string;
 
-  @Column({
-    type: DataType.FLOAT,
-    allowNull: false,
-  })
+  @Column(DataType.DOUBLE)
   public declare price: number;
 
-  @Column({
-    type: DataType.BOOLEAN,
-    allowNull: false,
-  })
+  @Column(DataType.BOOLEAN)
   public declare inStock: boolean;
 
-  @Column({
-    type: DataType.ENUM('man', 'woman'),
-    allowNull: false,
-  })
+  @Column(DataType.ENUM('man', 'woman'))
   public declare gender: 'man' | 'woman';
 
   @BelongsToMany(() => Color, () => ArticleColor)
@@ -56,4 +43,13 @@ export default class Article extends Model {
 
   @BelongsToMany(() => Size, () => ArticleSize)
   public declare sizes: Size[];
+
+  @AllowNull(false)
+  @NotEmpty
+  @ForeignKey(() => User)
+  @Column(DataType.INTEGER)
+  public declare userId: number;
+
+  @BelongsTo(() => User)
+  user: ReturnType<() => User>;
 }

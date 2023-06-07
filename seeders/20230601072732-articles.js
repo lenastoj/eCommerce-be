@@ -3,10 +3,10 @@ const faker = require('@faker-js/faker');
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up(queryInterface, Sequelize) {
+  async up(queryInterface) {
     const articles = [];
 
-    for (let i = 0; i < 15; i++) {
+    for (let i = 0; i < 35; i++) {
       articles.push({
         name: faker.faker.commerce.productName(),
         description:
@@ -16,6 +16,7 @@ module.exports = {
         price: faker.faker.finance.amount(19.99, 100),
         inStock: faker.faker.datatype.boolean(),
         gender: faker.faker.helpers.arrayElement(['man', 'woman']),
+        userId: 3,
         createdAt: new Date(),
         updatedAt: new Date(),
       });
@@ -26,7 +27,7 @@ module.exports = {
     await queryInterface.bulkInsert('articles', articles);
   },
 
-  async down(queryInterface, Sequelize) {
+  async down(queryInterface) {
     await queryInterface.bulkDelete('articles', null, {});
   },
 };

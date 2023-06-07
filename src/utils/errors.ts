@@ -28,3 +28,12 @@ export const responseServerAuthentificationError = (
     .status(401)
     .json(sanitizeError(new Error(message), 'authentification'));
 };
+
+export const responseServerAuthorizationError = (
+  res: Response,
+  message: string
+) => {
+  return res
+    .status(401)
+    .json(sanitizeError(new Error(message), 'authorization'));
+};

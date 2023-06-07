@@ -1,5 +1,5 @@
-import createApp from "@app/app";
-import "@services/database.service";
+import createApp from '@app/app';
+import '@services/database.service';
 
 const app = createApp();
 
