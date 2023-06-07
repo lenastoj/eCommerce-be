@@ -6,7 +6,7 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     const articles = [];
 
-    for (let i = 0; i < 15; i++) {
+    for (let i = 0; i < 35; i++) {
       articles.push({
         name: faker.faker.commerce.productName(),
         description:
