@@ -20,9 +20,8 @@ const createApp = () => {
   app.use(fileupload());
   app.use(express.urlencoded({ extended: true }));
 
-  app.use(express.static(path.join(__dirname, 'public')));
+  app.use('/static', express.static(path.join(__dirname, '../public')));
 
-  
   app.use(
     session({
       secret: process.env.SESSION_SECRET || 'session-secret-key-default',

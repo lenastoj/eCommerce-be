@@ -4,9 +4,10 @@ import {
   Column,
   DataType,
   BelongsToMany,
-  BelongsTo,
   ForeignKey,
+  BelongsTo,
   AllowNull,
+  NotEmpty,
 } from 'sequelize-typescript';
 import Color from './color.model';
 import Size from './size.model';
@@ -19,55 +20,36 @@ import User from './user.model';
   tableName: 'articles',
 })
 export default class Article extends Model {
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
-  public declare name: string;
+  @Column(DataType.STRING)
+  name: string;
 
-  @Column({
-    type: DataType.TEXT,
-    allowNull: false,
-  })
-  public declare description: string;
+  @Column(DataType.TEXT)
+  description: string;
 
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
-  public declare imageUrl: string;
+  @Column(DataType.STRING)
+  imageUrl: string;
 
-  @Column({
-    type: DataType.FLOAT,
-    allowNull: false,
-  })
-  public declare price: number;
+  @Column(DataType.DOUBLE)
+  price: number;
 
-  @Column({
-    type: DataType.BOOLEAN,
-    allowNull: false,
-  })
-  public declare inStock: boolean;
+  @Column(DataType.BOOLEAN)
+  inStock: boolean;
 
-  @Column({
-    type: DataType.ENUM('man', 'woman'),
-    allowNull: false,
-  })
-  public declare gender: 'man' | 'woman';
+  @Column(DataType.ENUM('man', 'woman'))
+  gender: 'man' | 'woman';
 
   @BelongsToMany(() => Color, () => ArticleColor)
-  public declare colors: Color[];
+  colors: Color[];
 
   @BelongsToMany(() => Size, () => ArticleSize)
-  public declare sizes: Size[];
+  sizes: Size[];
 
-
+  @AllowNull(false)
+  @NotEmpty
   @ForeignKey(() => User)
-  @Column({
-    type: DataType.NUMBER,
-  })
-  public declare userId: number;
+  @Column(DataType.INTEGER)
+  userId: number;
 
   @BelongsTo(() => User)
-  public declare user: ReturnType<() => User> ;
+  user: ReturnType<() => User>;
 }
