@@ -1,6 +1,7 @@
 import Article from '@models/article.model';
 import Color from '@models/color.model';
 import Size from '@models/size.model';
+import User from '@models/user.model';
 import { paginate } from '@utils/paginate';
 import { Request, Response } from 'express';
 import { UploadedFile } from 'express-fileupload';
@@ -27,16 +28,14 @@ export const getArticles = async (req: Request, res: Response) => {
         include: [
           {
             model: Color,
-            through: {
-              attributes: [],
-            },
           },
           {
             model: Size,
-            through: {
-              attributes: [],
-            },
           },
+          {
+            model: User,
+            attributes: ["firstName", "lastName"]
+          }
         ],
       },
       page
@@ -63,16 +62,14 @@ export const getArticle = async (req: Request, res: Response) => {
       include: [
         {
           model: Color,
-          through: {
-            attributes: [],
-          },
         },
         {
           model: Size,
-          through: {
-            attributes: [],
-          },
         },
+        {
+          model: User,
+          attributes: ["firstName", "lastName"]
+        }
       ],
     });
 
