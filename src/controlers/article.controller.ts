@@ -1,13 +1,13 @@
 import Article from '@models/article.model';
 import Color from '@models/color.model';
 import Size from '@models/size.model';
-import User from '@models/user.model';
 import { paginate } from '@utils/paginate';
 import { Request, Response } from 'express';
 import { UploadedFile } from 'express-fileupload';
+import path from 'path';
 
 export const getArticles = async (req: Request, res: Response) => {
-  const { page = 1, pageSize = 10 }: { page?: number; pageSize?: number } =
+  const { page = 1 }: { page?: number; } =
     req.query;
 
   try {
@@ -37,12 +37,6 @@ export const getArticles = async (req: Request, res: Response) => {
               attributes: [],
             },
           },
-          {
-            model: User,
-            through: {
-              attributes: []
-            }
-          }
         ],
       },
       page
@@ -94,21 +88,22 @@ export const getArticle = async (req: Request, res: Response) => {
 };
 
 export const addArticle = async (req: Request, res: Response) => {
-  console.log(req.files);
-  const { name, description, colors, sizes, price, inStock, gender } = req.body;
-
-  const userId = req.session.user.id;
-  const imageFile = req.files.imageUrl as UploadedFile;
-
-  const imageUrl = `${Date.now()}--${name.replaceAll('"', '')}`;
-
-  imageFile.mv("uploads/" + `${Date.now()}--${name}`);
-
   try {
+    const { name, description, colors, sizes, price, inStock, gender } =
+      req.body;
+
+    const userId = req.session.user.id;
+    const imageFile = req.files.imageUrl as UploadedFile;
+
+    const imageName = `${Date.now()}--${imageFile.name}`;
+
+    await imageFile.mv(path.join(__dirname, '../public/') + imageName);
+    await imageFile.mv('./src/public/' + imageName);
+
     const article = await Article.create({
       name,
       description,
-      imageUrl,
+      imageUrl: imageName,
       price,
       inStock,
       gender,
