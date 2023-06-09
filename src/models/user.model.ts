@@ -4,8 +4,10 @@ import {
   Column,
   DataType,
   HasMany,
+  HasOne,
 } from 'sequelize-typescript';
 import Article from './article.model';
+import Cart from './cart.model';
 
 @Table({
   timestamps: true,
@@ -46,4 +48,7 @@ export default class User extends Model {
 
   @HasMany(() => Article, { onDelete: 'cascade', hooks: false })
   articles?: Article[];
+
+  @HasOne(() => Cart)
+  cart: Cart;
 }
