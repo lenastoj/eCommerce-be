@@ -24,6 +24,6 @@ export default class Cart extends Model {
     @Column(DataType.INTEGER)
     public declare userId: number;
 
-    @BelongsToMany(() => Article, () => CartArticle)
+    @BelongsToMany(() => Article, () => CartArticle,  )
     public declare articles?: Article[];
 }
