@@ -14,6 +14,8 @@ import Size from './size.model';
 import { ArticleColor } from './articleColor.model';
 import { ArticleSize } from './articleSize.model';
 import User from './user.model';
+import Cart from './cart.model';
+import { CartArticle } from './cartArticle.model';
 
 @Table({
   timestamps: true,
@@ -52,4 +54,7 @@ export default class Article extends Model {
 
   @BelongsTo(() => User)
   user: ReturnType<() => User>;
+
+  @BelongsToMany(() => Cart, () => CartArticle)
+  public declare carts: Cart[];
 }
