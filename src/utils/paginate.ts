@@ -13,14 +13,12 @@ export const paginate = async(
 
   const paginated = await model.findAll(query);
 
-  let total: undefined | number;
-
-  try {
-    if (query.include) query.include = undefined;
-    total = await model.count(query);
-  } catch {
-    total = undefined;
-  }
+  //////////////////////////////////////////////////////////////
+  const total = await model.findAll({
+    where: query.where,
+    attributes: ['id'],
+    include: query.include,
+  });
 
   return {
     data: paginated,
@@ -28,8 +26,28 @@ export const paginate = async(
       page,
       paginationLimit,
       count: paginated.length,
-      total,
+      total: total.length,
     },
-    
   };
+  //////////////////////////////////////////////////////////////////
+
+  // let total: undefined | number;
+
+  // try {
+  //   if (query.include) query.include = undefined;
+  //   total = await model.count(query);
+  // } catch {
+  //   total = undefined;
+  // }
+
+  // return {
+  //   data: paginated,
+  //   metadata: {
+  //     page,
+  //     paginationLimit,
+  //     count: paginated.length,
+  //     total,
+  //   },
+    
+  // };
 }

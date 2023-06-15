@@ -6,7 +6,7 @@ import { paginate } from '@utils/paginate';
 import { Request, Response } from 'express';
 import { UploadedFile } from 'express-fileupload';
 import path from 'path';
-import { FindOptions, Op } from 'sequelize';
+import { ARRAY, FindOptions, Op } from 'sequelize';
 
 export const getArticles = async (req: Request, res: Response) => {
   try {
@@ -64,13 +64,12 @@ export const getArticles = async (req: Request, res: Response) => {
       where: gender && { gender },
     };
 
-
     const articles = await paginate(Article, articleQuery, page);
 
     if (!articles) {
       return res.status(404).json({ message: 'There are no articles' });
     }
-    
+
     res.json(articles);
   } catch (error) {
     console.error('Error retrieving articles:', error);
@@ -81,19 +80,22 @@ export const getArticles = async (req: Request, res: Response) => {
 export const searchArticles = async (req: Request, res: Response) => {
   try {
     const { searchParams } = req.body;
+    console.log('searchParams', searchParams);
 
-    const articles = await Article.findAll({
-      attributes: [
-        'id',
-        'name',
-        'imageUrl',
-        'price',
-        'gender',
-      ],
-      where: { name: { [Op.substring]: searchParams } },
+    const queryOptions: FindOptions = {
+      attributes: ['id', 'name', 'imageUrl', 'price', 'gender'],
       limit: 5,
-    });
+      where: searchParams && { name: { [Op.substring]: searchParams } } 
+    }
 
+    // const articles = await Article.findAll({
+    //   attributes: ['id', 'name', 'imageUrl', 'price', 'gender'],
+    //   where: { name: { [Op.substring]: searchParams } },
+    //   limit: 5,
+    // });
+
+    const articles = await Article.findAll(queryOptions)
+    
     if (!articles) {
       return res.status(404).json({ message: 'Article not found' });
     }
@@ -135,7 +137,6 @@ export const getArticle = async (req: Request, res: Response) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
-
 
 export const addArticle = async (req: Request, res: Response) => {
   try {
