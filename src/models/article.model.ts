@@ -16,6 +16,8 @@ import { ArticleSize } from './articleSize.model';
 import User from './user.model';
 import Cart from './cart.model';
 import { CartArticle } from './cartArticle.model';
+import Order from './order.model';
+import { OrderArticle } from './orderArticle.model';
 
 @Table({
   timestamps: true,
@@ -57,4 +59,7 @@ export default class Article extends Model {
 
   @BelongsToMany(() => Cart, () => CartArticle)
   public declare carts: Cart[];
+
+  @BelongsToMany(() => Order, () => OrderArticle)
+  public declare orders: Order[];
 }

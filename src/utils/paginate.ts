@@ -12,8 +12,6 @@ export const paginate = async(
   query.limit = paginationLimit;
 
   const paginated = await model.findAll(query);
-
-  //////////////////////////////////////////////////////////////
   const total = await model.findAll({
     where: query.where,
     attributes: ['id'],
@@ -29,25 +27,5 @@ export const paginate = async(
       total: total.length,
     },
   };
-  //////////////////////////////////////////////////////////////////
 
-  // let total: undefined | number;
-
-  // try {
-  //   if (query.include) query.include = undefined;
-  //   total = await model.count(query);
-  // } catch {
-  //   total = undefined;
-  // }
-
-  // return {
-  //   data: paginated,
-  //   metadata: {
-  //     page,
-  //     paginationLimit,
-  //     count: paginated.length,
-  //     total,
-  //   },
-    
-  // };
 }
