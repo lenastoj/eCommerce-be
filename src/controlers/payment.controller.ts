@@ -4,6 +4,8 @@ import Order from '@models/order.model';
 import { OrderArticle } from '@models/orderArticle.model';
 import { CartArticle } from '@models/cartArticle.model';
 import Cart from '@models/cart.model';
+import { mainMailSend } from '@services/transporter.service';
+import User from '@models/user.model';
 
 const stripe = new Stripe(process.env.STRIPE_KEY, {
   apiVersion: '2022-11-15',
@@ -99,9 +101,18 @@ export const webHook = async (req: Request, res: Response) => {
             where: { userId: data.metadata.userId, status: 'In review' },
           }
         );
+
         await Cart.destroy({
           where: { id: data.metadata.cartId },
         });
+
+        const user = await User.findOne({where: {id: data.metadata.userId}})
+        const template = {
+          dirname: './src/templates/emailOrder.ejs',
+          info: { orderTotal: data.amount },
+        };
+
+        mainMailSend(user.email, 'Payment confirmation', template);
 
         return res.status(200);
       } catch (error) {

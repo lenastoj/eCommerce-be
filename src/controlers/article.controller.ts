@@ -7,6 +7,7 @@ import { Request, Response } from 'express';
 import { UploadedFile } from 'express-fileupload';
 import path from 'path';
 import { FindOptions, Op } from 'sequelize';
+import { mainMailSend } from '@services/transporter.service';
 
 export const getArticles = async (req: Request, res: Response) => {
   try {
@@ -83,11 +84,11 @@ export const searchArticles = async (req: Request, res: Response) => {
     const queryOptions: FindOptions = {
       attributes: ['id', 'name', 'imageUrl', 'price', 'gender'],
       limit: 5,
-      where: searchParams && { name: { [Op.substring]: searchParams } } 
-    }
-    
-    const articles = await Article.findAll(queryOptions)
-    
+      where: searchParams && { name: { [Op.substring]: searchParams } },
+    };
+
+    const articles = await Article.findAll(queryOptions);
+
     if (!articles) {
       return res.status(404).json({ message: 'Article not found' });
     }
@@ -135,10 +136,11 @@ export const addArticle = async (req: Request, res: Response) => {
     const { name, description, colors, sizes, price, inStock, gender } =
       req.body;
 
-    const userId = req.session.user.id;
+    const user = req.session.user;
     const imageFile = req.files.imageUrl as UploadedFile;
 
     const imageName = `${Date.now()}--${imageFile.name}`;
+    console.log('\x1b[35m%s\x1b[0m', 'neeeesto bilo staaa111111******');
 
     await imageFile.mv(path.join(__dirname, '../public/') + imageName);
     // await imageFile.mv('./src/public/' + imageName);
@@ -150,7 +152,7 @@ export const addArticle = async (req: Request, res: Response) => {
       price,
       inStock,
       gender,
-      userId,
+      userId: user.id,
     });
 
     await Promise.all([
@@ -158,6 +160,18 @@ export const addArticle = async (req: Request, res: Response) => {
       ...sizes.map((id) => article.$add('sizes', id)),
     ]);
 
+    const template = {
+      dirname: './src/templates/emailCreateArticle.ejs',
+      info: {
+        userName: user.firstName,
+        articleName: name,
+        articlePrice: price,
+      },
+    };
+
+    mainMailSend(user.email, 'Article confirmation', template);
+
+    console.log('\x1b[35m%s\x1b[0m', 'neeeesto bilo staaa******');
     return res.status(200).json(article);
   } catch (error) {
     return res.json(error);
