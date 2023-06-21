@@ -4,6 +4,7 @@ import cors from 'cors';
 import session from 'express-session';
 import fileupload from 'express-fileupload';
 import path from 'path';
+import { webHook } from '@controlers/payment.controller';
 
 const createApp = () => {
   const app = express();
@@ -15,6 +16,9 @@ const createApp = () => {
       credentials: true,
     })
   );
+
+  app.post('/webhook', express.raw({type: 'application/json'}), webHook);
+
 
   app.use(express.json());
   app.use(fileupload());
