@@ -60,10 +60,6 @@ export const webHook = async (req: Request, res: Response) => {
     case 'payment_intent.created': {
       const data = event.data.object;
       try {
-        const cartArticle = await CartArticle.findAll({
-          where: { cartId: data.metadata.cartId },
-        });
-
         let order = await Order.findOne({
           where: { cartId: data.metadata.cartId },
         });
@@ -71,6 +67,11 @@ export const webHook = async (req: Request, res: Response) => {
         if (order) {
           return res.status(400);
         }
+
+        const cartArticle = await CartArticle.findAll({
+          where: { cartId: data.metadata.cartId },
+        });
+
         order = await Order.create({
           userId: data.metadata.userId,
           amount: data.amount,
