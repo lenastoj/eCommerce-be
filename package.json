@@ -21,6 +21,8 @@
     "reflect-metadata": "^0.1.13",
     "sequelize": "^6.31.1",
     "sequelize-typescript": "^2.1.5",
+    "stripe": "^12.9.0",
+    "stripe-event-types": "^2.3.0",
     "tslib": "^2.3.0"
   },
   "devDependencies": {
