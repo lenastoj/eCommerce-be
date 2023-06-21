@@ -7,6 +7,8 @@ import { ArticleSize } from '@models/articleSize.model';
 import { ArticleColor } from '@models/articleColor.model';
 import Cart from '@models/cart.model';
 import { CartArticle } from '@models/cartArticle.model';
+import Order from '@models/order.model';
+import { OrderArticle } from '@models/orderArticle.model';
 
 const sequelize = new Sequelize(
   process.env.DATABASE_NAME,
@@ -21,7 +23,7 @@ const sequelize = new Sequelize(
 (async () => {
   try {
     await sequelize.authenticate();
-    sequelize.addModels([User, Article, Color, Size, ArticleColor, ArticleSize, Cart, CartArticle]);
+    sequelize.addModels([User, Article, Color, Size, ArticleColor, ArticleSize, Cart, CartArticle, Order, OrderArticle]);
     await sequelize.sync();
     console.log('Connection has been established successfully.');
   } catch (error) {

@@ -6,7 +6,7 @@ import { paginate } from '@utils/paginate';
 import { Request, Response } from 'express';
 import { UploadedFile } from 'express-fileupload';
 import path from 'path';
-import { ARRAY, FindOptions, Op } from 'sequelize';
+import { FindOptions, Op } from 'sequelize';
 
 export const getArticles = async (req: Request, res: Response) => {
   try {
@@ -80,20 +80,12 @@ export const getArticles = async (req: Request, res: Response) => {
 export const searchArticles = async (req: Request, res: Response) => {
   try {
     const { searchParams } = req.body;
-    console.log('searchParams', searchParams);
-
     const queryOptions: FindOptions = {
       attributes: ['id', 'name', 'imageUrl', 'price', 'gender'],
       limit: 5,
       where: searchParams && { name: { [Op.substring]: searchParams } } 
     }
-
-    // const articles = await Article.findAll({
-    //   attributes: ['id', 'name', 'imageUrl', 'price', 'gender'],
-    //   where: { name: { [Op.substring]: searchParams } },
-    //   limit: 5,
-    // });
-
+    
     const articles = await Article.findAll(queryOptions)
     
     if (!articles) {

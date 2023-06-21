@@ -8,6 +8,7 @@ import {
 } from 'sequelize-typescript';
 import Article from './article.model';
 import Cart from './cart.model';
+import Order from './order.model';
 
 @Table({
   timestamps: true,
@@ -51,4 +52,7 @@ export default class User extends Model {
 
   @HasOne(() => Cart)
   cart: Cart;
+
+  @HasMany(() => Order, { onDelete: 'cascade', hooks: false })
+  orders?: Order[];
 }
