@@ -7,5 +7,5 @@
     "types": ["node"]
   },
   "exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"],
-  "include": ["src/**/*.ts", "migrations/20230531112133-create_articles_table.ts", "src/seeders/20230531135151-articleColorSize.js", "src/seeders/20230531134441-sizes.js", "src/seeders/20230531134428-colors.js", "src/seeders/20230531130309-articles.js"]
+  "include": ["src/**/*.ts", "migrations/20230531112133-create_articles_table.ts", "src/seeders/20230531135151-articleColorSize.js", "src/seeders/20230531134441-sizes.js", "src/seeders/20230531134428-colors.js", "src/seeders/20230531130309-articles.js", "src/templates/test.tsx"]
 }
