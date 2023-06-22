@@ -171,7 +171,6 @@ export const addArticle = async (req: Request, res: Response) => {
 
     mainMailSend(user.email, 'Article confirmation', template);
 
-    console.log('\x1b[35m%s\x1b[0m', 'neeeesto bilo staaa******');
     return res.status(200).json(article);
   } catch (error) {
     return res.json(error);
