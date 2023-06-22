@@ -2,11 +2,11 @@ import nodemailer from 'nodemailer';
 import ejs from 'ejs';
 
 const transporter = nodemailer.createTransport({
-  host: 'sandbox.smtp.mailtrap.io',
-  port: 2525,
+  host: process.env.REACT_APP_MAIL_HOST,
+  port: Number(process.env.REACT_APP_MAIL_PORT),
   auth: {
-    user: 'c787918160a27a',
-    pass: '18cf05b43c85e5',
+    user: process.env.REACT_APP_MAIL_USER,
+    pass: process.env.REACT_APP_MAIL_PASS,
   },
 });
 
