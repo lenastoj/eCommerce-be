@@ -22,7 +22,8 @@
       "@utils/*": ["./src/utils/*"],
       "@validators/*": ["./src/validators/*"],
       "@migrations/*": ["./src/migrations/*"],
-      "@seeders/*": ["./src/seeders/*"]
+      "@seeders/*": ["./src/seeders/*"],
+      "@templates/*": ["./src/templates/*"],  
     },
     "esModuleInterop": true
   },
