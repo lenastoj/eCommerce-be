@@ -5,6 +5,8 @@ import session from 'express-session';
 import fileupload from 'express-fileupload';
 import path from 'path';
 import { webHook } from '@controlers/payment.controller';
+import cacheManager from '@utils/cache.manager';
+
 
 const createApp = () => {
   const app = express();
@@ -25,9 +27,10 @@ const createApp = () => {
   app.use(express.urlencoded({ extended: true }));
 
   app.use('/static', express.static(path.join(__dirname, '../public')));
-
+    
   app.use(
     session({
+      store: cacheManager.redisStore(),
       secret: process.env.SESSION_SECRET || 'session-secret-key-default',
       resave: false,
       saveUninitialized: false,
