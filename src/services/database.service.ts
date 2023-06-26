@@ -9,6 +9,7 @@ import Cart from '@models/cart.model';
 import { CartArticle } from '@models/cartArticle.model';
 import Order from '@models/order.model';
 import { OrderArticle } from '@models/orderArticle.model';
+import { saveToAlgolia } from '@utils/algolia';
 
 const sequelize = new Sequelize(
   process.env.DATABASE_NAME,
@@ -26,6 +27,7 @@ const sequelize = new Sequelize(
     sequelize.addModels([User, Article, Color, Size, ArticleColor, ArticleSize, Cart, CartArticle, Order, OrderArticle]);
     await sequelize.sync();
     console.log('Connection has been established successfully.');
+    saveToAlgolia();
   } catch (error) {
     console.error('Unable to connect to the database:', error);
   }
